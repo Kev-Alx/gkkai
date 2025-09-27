@@ -1,0 +1,40 @@
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./:/app
+  #     - /app/node_modules
+  #     - /app/.pnpm
+  #   environment:
+  #     - DATABASE_URL=${DATABASE_URL}
+  #     - CI=true
+  #   depends_on:
+  #     - db
+  #   command: sh -c "pnpm i &&  npm run dev"
+  #   networks:
+  #     - bridge-network
+
+  db:
+    image: postgres:16.10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gkkai
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bridge-network
+
+volumes:
+  postgres_data:
+
+networks:
+  bridge-network:
+    driver: bridge
